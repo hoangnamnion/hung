@@ -7,6 +7,10 @@ function initializeMusic() {
         globalAudio = new Audio('./songs/love5.mp3');
         globalAudio.loop = true;
         // Thêm sự kiện để tự động phát khi người dùng tương tác với trang
+        document.addEventListener('touchstart', function startMusic() {
+            playMusic();
+            document.removeEventListener('touchstart', startMusic);
+        }, { once: true });
         document.addEventListener('click', function startMusic() {
             playMusic();
             document.removeEventListener('click', startMusic);
