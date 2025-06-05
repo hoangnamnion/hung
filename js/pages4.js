@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Danh sách tin nhắn gửi đi và trả lời tương ứng
             const messagePairs = [
                 {
+                    sent: "Heluuuuu b cho mình làm quen nha ^^",
+                    reply: "Mình yêu nhau luôn đi cho đỡ mất công đoạn làm quen được không ạ ?"
+                },
+                {
+                    sent: "Vậy thì lại đây nắm lấy tay anh nào ^^",
+                    reply: "Dạ đây,cho em chơm miếng 😍"
+                },
+                {
                     sent: "Hứa với anh,chúng mình sẽ nắm tay nhau đi hết cuộc đời này,cùng nhau vượt qua mọi khó khăn nha",
                     reply: "Dạ vâng,em đồng ý ạaaaaaaaaaaaaaa ❤️"
                 },
