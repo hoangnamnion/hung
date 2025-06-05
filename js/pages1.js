@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSlide = 0;
     const totalSlides = slides.length;
 
-    // Function to load image for a specific slide index
-    function loadImage(index) {
-        if (index >= 0 && index < totalSlides) {
-            const img = slides[index].querySelector('.lazyload');
+    // Function to load all images immediately
+    function loadAllImages() {
+        slides.forEach(slide => {
+            const img = slide.querySelector('.lazyload');
             if (img && img.dataset.src) {
                 img.src = img.dataset.src;
                 img.onload = () => {
@@ -37,32 +37,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 img.onerror = () => {
                     console.error('Failed to load image:', img.dataset.src);
-                    img.src = './images/placeholder.png'; // Path to a placeholder image
+                    img.src = './images/placeholder.png';
                     img.alt = 'Image failed to load';
-                    img.classList.remove('lazyload'); // Remove lazyload class even on error
-                    // Optional: Add a class to style the placeholder if needed
-                    // img.classList.add('placeholder-image');
+                    img.classList.remove('lazyload');
                 };
             }
-        }
-    }
-
-    // Function to load surrounding images (current, prev, next)
-    function loadSurroundingImages() {
-        loadImage(currentSlide);
-        loadImage(currentSlide - 1);
-        loadImage(currentSlide + 1);
+        });
     }
 
     // Function to update slideshow position
     function updateSlideshow(smoothTransition = true) {
         if (smoothTransition) {
-             slideshow.style.transition = 'transform 0.5s ease';
+            slideshow.style.transition = 'transform 0.5s ease';
         } else {
-             slideshow.style.transition = 'none';
+            slideshow.style.transition = 'none';
         }
-       slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
-       loadSurroundingImages(); // Tải ảnh khi slide thay đổi
+        slideshow.style.transform = `translateX(-${currentSlide * 100}%)`;
     }
 
     // Next slide function (non-looping)
@@ -130,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
         isDragging = true;
         mouseStartX = e.screenX;
         slideshowContainer.style.cursor = 'grabbing';
-         updateSlideshow(false);
-         mouseCurrentX = mouseStartX;
+        updateSlideshow(false);
+        mouseCurrentX = mouseStartX;
         e.preventDefault();
     });
 
@@ -141,12 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(updateDragPosition);
     });
 
-     function updateDragPosition() {
-         if (!isDragging) return;
-         const walk = mouseCurrentX - mouseStartX;
-         const currentTranslateX = -currentSlide * slideshowContainer.offsetWidth;
-         slideshow.style.transform = `translateX(${currentTranslateX + walk}px)`;
-     }
+    function updateDragPosition() {
+        if (!isDragging) return;
+        const walk = mouseCurrentX - mouseStartX;
+        const currentTranslateX = -currentSlide * slideshowContainer.offsetWidth;
+        slideshow.style.transform = `translateX(${currentTranslateX + walk}px)`;
+    }
 
     slideshowContainer.addEventListener('mouseup', e => {
         if (!isDragging) return;
@@ -165,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Không đủ khoảng cách kéo, về vị trí cũ
             updateSlideshow();
         }
-         updateSlideshow(true);
+        updateSlideshow(true);
     });
 
     // Ngừng kéo nếu chuột rời khỏi container hoặc cửa sổ
@@ -177,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-     document.addEventListener('mouseup', () => {
+    document.addEventListener('mouseup', () => {
         if (isDragging) {
             isDragging = false;
             slideshowContainer.style.cursor = 'grab';
@@ -194,12 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-     // Cập nhật vị trí slideshow khi cửa sổ resize để đảm bảo đúng vị trí slide
+    // Cập nhật vị trí slideshow khi cửa sổ resize để đảm bảo đúng vị trí slide
     window.addEventListener('resize', () => {
         updateSlideshow(false);
     });
 
-     // Hiển thị slide đầu tiên và tải ảnh lân cận khi tải trang
-     updateSlideshow(false);
-     loadSurroundingImages();
+    // Tải tất cả ảnh ngay khi vào trang
+    loadAllImages();
+    // Hiển thị slide đầu tiên
+    updateSlideshow(false);
 }); 
