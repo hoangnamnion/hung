@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const messageInput = document.querySelector('.message-input');
     const sendButton = document.querySelector('.send-button');
     const chatMessages = document.querySelector('.chat-messages');
-    let currentMessageIndex = 0; // Biến để theo dõi tin nhắn gửi đi
-    let currentReplyIndex = parseInt(localStorage.getItem('currentReplyIndex')) || 0; // Lấy chỉ số từ localStorage
+    let currentMessageIndex = parseInt(localStorage.getItem('currentMessageIndex')) || 0; // Lấy chỉ số tin nhắn gửi đi từ localStorage
 
     // Function to add a new message
     function addMessage(text, isSent = true) {
@@ -18,33 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
     sendButton.addEventListener('click', function() {
         const message = messageInput.value.trim();
         if (message) {
-            // Danh sách tin nhắn gửi đi theo thứ tự
-            const sentMessages = [
-                "Hứa với anh,chúng mình sẽ nắm tay nhau đi hết cuộc đời này,cùng nhau vượt qua mọi khó khăn nha",
-                "Anh không hứa sẽ mang lại cho em sự giàu sang,nhưng anh hứa sẽ mang lại cho em hạnh phúc với 1 bến đỗ an toàn ☺️",
-                "Đương nhiên là chỉ yêu thương mình em rồi ☺️ anh yêu em nhiều lắm 🥰"
+            // Danh sách tin nhắn gửi đi và trả lời tương ứng
+            const messagePairs = [
+                {
+                    sent: "Hứa với anh,chúng mình sẽ nắm tay nhau đi hết cuộc đời này,cùng nhau vượt qua mọi khó khăn nha",
+                    reply: "Dạ vâng,em đồng ý ạaaaaaaaaaaaaaa ❤️"
+                },
+                {
+                    sent: "Anh không hứa sẽ mang lại cho em sự giàu sang,nhưng anh hứa sẽ mang lại cho em hạnh phúc với 1 bến đỗ an toàn ☺️",
+                    reply: "Chỉ cần anh luôn bên em và yêu thương em thôi,ngoài kia có mệt mỏi thì về với em nha,có em chờ ☺️"
+                },
+                {
+                    sent: "Đương nhiên là chỉ yêu thương mình em rồi ☺️ anh yêu em nhiều lắm 🥰",
+                    reply: "Dạ,em cũm yêu anh nhìuuuuuuuuuuuu 🥰"
+                }
             ];
             
             // Gửi tin nhắn theo thứ tự
-            addMessage(sentMessages[currentMessageIndex], true);
-            // Tăng chỉ số và quay lại đầu nếu đã hết
-            currentMessageIndex = (currentMessageIndex + 1) % sentMessages.length;
+            addMessage(messagePairs[currentMessageIndex].sent, true);
             
             messageInput.value = '';
             
             // Simulate a reply after 1 second
             setTimeout(() => {
-                const replies = [
-                    "Dạ vâng,em đồng ý ạaaaaaaaaaaaaaa ❤️",
-                    "Chỉ cần anh luôn bên em và yêu thương em thôi,ngoài kia có mệt mỏi thì về với em nha,có em chờ ☺️",
-                    "Dạ,em cũm yêu anh nhìuuuuuuuuuuuu 🥰"
-                ];
-                // Trả lời theo thứ tự
-                addMessage(replies[currentReplyIndex], false);
+                // Trả lời tương ứng với tin nhắn gửi đi
+                addMessage(messagePairs[currentMessageIndex].reply, false);
                 // Tăng chỉ số và quay lại đầu nếu đã hết
-                currentReplyIndex = (currentReplyIndex + 1) % replies.length;
+                currentMessageIndex = (currentMessageIndex + 1) % messagePairs.length;
                 // Lưu chỉ số mới vào localStorage
-                localStorage.setItem('currentReplyIndex', currentReplyIndex);
+                localStorage.setItem('currentMessageIndex', currentMessageIndex);
             }, 1000);
         }
     });
