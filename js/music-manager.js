@@ -1,18 +1,26 @@
 // Quản lý âm nhạc toàn cục
 let globalAudio = null;
+let isFirstLoad = true;
 
 function initializeMusic() {
     // Tạo audio element nếu chưa tồn tại
     if (!globalAudio) {
         globalAudio = new Audio('./songs/love5.mp3');
         globalAudio.loop = true;
+        
         // Thêm sự kiện để tự động phát khi người dùng tương tác với trang
         document.addEventListener('touchstart', function startMusic() {
-            playMusic();
+            if (isFirstLoad) {
+                playMusic();
+                isFirstLoad = false;
+            }
             document.removeEventListener('touchstart', startMusic);
         }, { once: true });
         document.addEventListener('click', function startMusic() {
-            playMusic();
+            if (isFirstLoad) {
+                playMusic();
+                isFirstLoad = false;
+            }
             document.removeEventListener('click', startMusic);
         }, { once: true });
     }
@@ -108,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('page5a.html')) {
         stopMusic();
     } else {
-        // Thử phát nhạc ngay khi trang được tải
-        playMusic();
+        // Chỉ phát nhạc nếu chưa phát bao giờ
+        if (isFirstLoad) {
+            playMusic();
+        }
     }
 }); 
