@@ -1,6 +1,5 @@
 // Quản lý âm nhạc toàn cục
 let globalAudio = null;
-let isFirstLoad = true;
 
 // Kiểm tra thiết bị mobile
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -95,7 +94,12 @@ function playMusic() {
     if (globalAudio) {
         // Đặt volume và currentTime trước khi play để giảm độ trễ
         globalAudio.volume = 1;
-        globalAudio.currentTime = 0;
+        
+        // Khôi phục thời gian phát từ localStorage nếu có
+        const savedTime = localStorage.getItem('musicTime');
+        if (savedTime) {
+            globalAudio.currentTime = parseFloat(savedTime);
+        }
         
         // Thử phát nhạc và xử lý lỗi nếu có
         const playPromise = globalAudio.play();
@@ -141,6 +145,8 @@ function addPlayButton() {
 function pauseMusic() {
     if (globalAudio) {
         globalAudio.pause();
+        // Lưu thời gian hiện tại khi tạm dừng
+        localStorage.setItem('musicTime', globalAudio.currentTime);
     }
 }
 
@@ -148,6 +154,7 @@ function stopMusic() {
     if (globalAudio) {
         globalAudio.pause();
         globalAudio.currentTime = 0;
+        localStorage.removeItem('musicTime');
     }
 }
 
@@ -159,7 +166,7 @@ function saveMusicState() {
     }
 }
 
-// Khôi phục trạng thái âm nhắn từ localStorage
+// Khôi phục trạng thái âm nhạc từ localStorage
 function restoreMusicState() {
     if (globalAudio) {
         const savedTime = localStorage.getItem('musicTime');
