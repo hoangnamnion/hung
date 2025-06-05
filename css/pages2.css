@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+/* Các style chung từ pages.css (nếu có) sẽ được ghi đè hoặc bổ sung tại đây */
+/* Bạn có thể copy các style từ pages.css nếu muốn giữ lại */
+
+body {
+    background-color: #FFE4E1; /* Nền hồng nhạt */
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+}
+
+.love-page-image {
+    max-width: 300px;
+    width: 90%;
+    height: auto;
+    border-radius: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative; /* Cần thiết cho pseudo-element */
+    overflow: hidden; /* Ẩn phần gradient tràn ra ngoài border radius */
+    z-index: 1; /* Đảm bảo ảnh nằm trên pseudo-element */
+}
+
+.love-page-image::before {
+    content: '';
+    position: absolute;
+    top: -8px; /* Increased size for more prominent glow */
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background: linear-gradient(45deg, #ff1493, #ff69b4, #ff1493); /* Gradient màu hồng */
+    background-size: 200% 200%; /* Increased size for animation */
+    border-radius: 30px; /* Điều chỉnh để phù hợp với border-radius của ảnh */
+    z-index: -1; /* Đặt phía sau ảnh */
+    animation: glowing 3s linear infinite; /* Animation phát sáng, adjusted duration */
+    opacity: 0.8;
+    filter: blur(5px); /* Added blur for a softer glow */
+}
+
+/* Sử dụng animation glowing đã định nghĩa cho menu */
+/* @keyframes glowing được định nghĩa ở cuối file */
+
+.love-counter-container {
+    text-align: center;
+    margin-top: 0;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.start-date, .days-count, .time-count {
+    font-size: 1.5em;
+    color: #ff69b4; /* Changed color to pink */
+    margin-bottom: 15px;
+}
+
+.time-count {
+    font-size: 1.8em;
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.heart-icon {
+    font-size: 3em;
+    color: #e74c3c;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.heart-icon .name {
+    font-family: 'Pacifico', cursive;
+    font-size: 0.7em;
+    margin: 0 10px;
+    color: #ff69b4;
+    font-weight: normal;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.heart-char {
+    font-size: 1em;
+    color: #e74c3c;
+    animation: beat 1.5s infinite ease-in-out;
+    flex-shrink: 0;
+}
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 15px #ff1493, 0 0 25px #ff69b4; /* Pink glow */
+        opacity: 0.9;
+    }
+    50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 25px #ff1493, 0 0 40px #ff69b4; /* More intense pink glow */
+        opacity: 1;
+    }
+    100% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 15px #ff1493, 0 0 25px #ff69b4; /* Pink glow */
+        opacity: 0.9;
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .love-page-image {
+        margin-bottom: 20px;
+        max-width: 90%;
+        width: 90%;
+         border-radius: 20px; /* Điều chỉnh border radius */
+    }
+
+    .love-page-image::before {
+        border-radius: 25px; /* Điều chỉnh border radius */
+    }
+
+    .love-counter-container {
+        margin-top: 0;
+        padding: 20px;
+        max-width: 95%;
+    }
+
+    .start-date, .days-count, .time-count {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+     .time-count {
+        font-size: 1.5em;
+    }
+
+    .heart-icon {
+        font-size: 2.5em;
+        margin: 15px 0;
+    }
+
+    .heart-icon .name {
+         font-size: 0.6em;
+         margin: 0 5px;
+    }
+}
+
+/* Styles for large screens (PC) */
+@media screen and (min-width: 1025px) {
+    .love-page-image {
+        max-width: 400px;
+    }
+
+    .love-page-image::before {
+        border-radius: 35px; /* Điều chỉnh border radius */
+    }
+
+    .love-counter-container {
+         max-width: 650px;
+    }
+
+     .start-date, .days-count, .time-count {
+        font-size: 1.6em;
+    }
+
+    .time-count {
+        font-size: 2em;
+    }
+}
+
+/* Styles cho hiệu ứng trái tim rơi */
+.falling-heart {
+    position: fixed;
+    bottom: -50px; /* Bắt đầu từ dưới màn hình */
+    z-index: 50; /* Đảm bảo nằm trên nền nhưng dưới back-button */
+    font-size: 1.5em; /* Kích thước trái tim */
+    color: #e74c3c; /* Màu trái tim */
+    text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; /* Hiệu ứng glow hồng */
+    animation: fall linear infinite, glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh); /* Rơi lên đến đỉnh màn hình */
+        opacity: 0;
+    }
+}
+
+@keyframes glow-pulse {
+    0% { text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4; }
+    100% { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+}

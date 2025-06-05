@@ -1,0 +1,133 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f8f8; /* Màu nền nhẹ */
+    margin: 0;
+    background-image: url('./images/love_pattern.png'); /* Thay bằng đường dẫn ảnh nền */
+    background-repeat: repeat;
+    background-size: 200px; /* Điều chỉnh kích thước ảnh nền */
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.polaroid {
+    background-color: #ffffff;
+    padding: 10px 10px 20px 10px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin-bottom: 20px;
+    transform: rotate(3deg); /* Góc nghiêng nhẹ */
+}
+
+.polaroid img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.caption {
+    font-family: 'Permanent Marker', cursive; /* Thay bằng font chữ viết tay */
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 1.8em;
+}
+
+p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-size: 1em;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+.input-area i {
+    color: #ff6b6b;
+    margin-right: 10px;
+}
+
+.input-area input {
+    border: none;
+    outline: none;
+    font-size: 1.5em;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 5px; /* Khoảng cách giữa các ký tự */
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.keypad button {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffebee; /* Màu nền nút */
+    color: #333;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.keypad button:hover {
+    background-color: #ffcccb; /* Màu nền nút khi hover */
+}
+
+.keypad button:last-child {
+    background-color: #e0e0e0; /* Màu nền nút backspace */
+}
+
+.keypad button:last-child:hover {
+    background-color: #d5d5d5; /* Màu nền nút backspace khi hover */
+}
+
+/* Password feedback styling */
+.input-area input.success {
+    border: 2px solid #2ecc71 !important;
+    transition: border 0.3s ease;
+}
+
+.input-area input.error {
+    border: 2px solid #e74c3c !important;
+    transition: border 0.3s ease;
+}
+
+.input-area input.shake {
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+} 

@@ -1,0 +1,194 @@
+/* Styles cho trang Ghép ảnh */
+
+/* Style chung cho nút quay lại và nội dung nếu chưa có */
+/* (Có thể đã có từ file pages.css ban đầu hoặc đã được thêm thủ công) */
+
+body {
+    background-color: #FFE4E1; /* Nền hồng nhạt */
+}
+
+.page-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.page-title {
+    font-size: clamp(1.8em, 5vw, 3em);
+    color: #ff69b4; /* Màu hồng */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.puzzle-game-area {
+    display: flex;
+    flex-direction: column; /* Mặc định xếp dọc trên mobile */
+    align-items: center; /* Canh giữa theo chiều ngang */
+    gap: 30px; /* Khoảng cách giữa hai khu vực */
+}
+
+.puzzle-container {
+    width: 100%;
+    max-width: 500px; /* Kích thước tối đa cho bàn cờ */
+    /* margin: 20px auto; */ /* Bỏ margin auto vì dùng flexbox */
+    border: 5px solid #ff69b4; /* Viền hồng */
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.6); /* Hiệu ứng glow */
+    position: relative; /* Cần thiết để định vị các mảnh ghép */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Chia thành 3 cột bằng nhau */
+    grid-template-rows: repeat(3, 1fr); /* Chia thành 3 hàng bằng nhau */
+    gap: 0; /* Không có khoảng cách giữa các mảnh ghép */
+    aspect-ratio: 1 / 1; /* Đảm bảo container luôn là hình vuông */
+}
+
+.puzzle-piece {
+    width: 100%;
+    height: 100%;
+    /* background-size: 300% 300%; */ /* Không dùng background image nữa */
+    /* background-position: ... */
+    cursor: grab;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid rgba(255, 182, 193, 0.5); /* Đường kẻ mờ giữa các mảnh */
+    box-sizing: border-box;
+    display: block; /* Đảm bảo là block element */
+}
+
+.puzzle-piece img {
+    display: block; /* Loại bỏ khoảng trắng dưới ảnh */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh phủ kín mảnh ghép */
+    pointer-events: none; /* Ngăn chặn kéo ảnh thay vì div */
+}
+
+.puzzle-piece:hover {
+    transform: scale(1.03); /* Phóng to nhẹ khi hover */
+    z-index: 10; /* Đảm bảo mảnh ghép đang hover nằm trên các mảnh khác */
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.8); /* Thêm shadow khi hover */
+}
+
+/* Khi kéo/di chuyển mảnh ghép */
+.puzzle-piece.dragging {
+    opacity: 0.8;
+    z-index: 20; /* Nằm trên tất cả */
+    cursor: grabbing;
+}
+
+.original-image-container {
+    text-align: center;
+    max-width: 400px; /* Kích thước tối đa cho ảnh gốc */
+    width: 100%;
+}
+
+.original-image-container h2 {
+    color: #ff69b4; /* Màu hồng */
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.original-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 5px solid #ff1493; /* Viền hồng đậm */
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.5); /* Hiệu ứng glow nhẹ */
+    border-radius: 10px; /* Bo góc ảnh */
+    margin: 0 auto; /* Canh giữa ảnh */
+}
+
+.puzzle-solved-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95); /* Nền mờ hơn */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center;
+    align-items: center; /* Center children horizontally */
+    z-index: 30;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+.puzzle-solved-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.solved-message {
+    font-size: clamp(2em, 5vw, 3.5em); /* Tăng kích thước thông báo */
+    color: #e74c3c; /* Màu đỏ */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Tăng shadow */
+    margin-bottom: 20px; /* Add space below the message */
+}
+
+.puzzle-info {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #555;
+}
+
+.close-overlay-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.close-overlay-button:hover {
+    background-color: #ff1493;
+}
+
+/* Styles cho hiệu ứng chúc mừng */
+.celebration-element {
+    position: fixed;
+    top: -20px; /* Bắt đầu từ trên màn hình */
+    z-index: 40; /* Nằm giữa puzzle và overlay */
+    font-size: 1.2em;
+    pointer-events: none; /* Không chặn tương tác chuột/chạm */
+    animation: fall-celebration linear infinite;
+}
+
+@keyframes fall-celebration {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg); /* Rơi xuống dưới màn hình và xoay */
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (min-width: 768px) {
+    .puzzle-game-area {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .puzzle-container {
+        width: 500px;
+        height: 500px;
+        max-width: none;
+    }
+
+    .original-image-container {
+        max-width: 400px;
+    }
+
+    .original-image {
+        max-width: 100%;
+    }
+}
