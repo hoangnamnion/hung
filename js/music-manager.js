@@ -23,6 +23,26 @@ function initializeMusic() {
             }
             document.removeEventListener('click', startMusic);
         }, { once: true });
+
+        // Thêm sự kiện để xử lý khi trang bị ẩn/hiện trên mobile
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Lưu trạng thái khi trang bị ẩn
+                saveMusicState();
+            } else {
+                // Khôi phục trạng thái khi trang được hiện lại
+                restoreMusicState();
+            }
+        });
+
+        // Thêm sự kiện để xử lý khi ứng dụng bị tạm dừng/tiếp tục trên mobile
+        window.addEventListener('blur', function() {
+            saveMusicState();
+        });
+
+        window.addEventListener('focus', function() {
+            restoreMusicState();
+        });
     }
 }
 
@@ -110,15 +130,12 @@ window.addEventListener('beforeunload', saveMusicState);
 // Khởi tạo âm nhạc khi trang được tải
 document.addEventListener('DOMContentLoaded', () => {
     initializeMusic();
-    restoreMusicState();
     
     // Kiểm tra nếu đang ở page5a.html thì dừng nhạc
     if (window.location.pathname.includes('page5a.html')) {
         stopMusic();
     } else {
-        // Chỉ phát nhạc nếu chưa phát bao giờ
-        if (isFirstLoad) {
-            playMusic();
-        }
+        // Khôi phục trạng thái nhạc từ localStorage
+        restoreMusicState();
     }
 }); 
