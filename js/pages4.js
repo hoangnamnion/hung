@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const messageInput = document.querySelector('.message-input');
     const sendButton = document.querySelector('.send-button');
     const chatMessages = document.querySelector('.chat-messages');
-    let currentMessageIndex = parseInt(localStorage.getItem('currentMessageIndex')) || 0; // Lấy chỉ số tin nhắn gửi đi từ localStorage
+    let currentMessageIndex = 0; // Luôn bắt đầu từ tin nhắn đầu tiên
 
     // Function to add a new message
     function addMessage(text, isSent = true) {
@@ -52,8 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 addMessage(messagePairs[currentMessageIndex].reply, false);
                 // Tăng chỉ số và quay lại đầu nếu đã hết
                 currentMessageIndex = (currentMessageIndex + 1) % messagePairs.length;
-                // Lưu chỉ số mới vào localStorage
-                localStorage.setItem('currentMessageIndex', currentMessageIndex);
             }, 1000);
         }
     });
