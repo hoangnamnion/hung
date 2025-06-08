@@ -208,7 +208,7 @@ function createTextParticle() {
     let startTime = null;
     let startY = -150;
     let endY = window.innerHeight + 150;
-    const thisParticleSpeed = particleSpeedMultiplier * 0.7;
+    const thisParticleSpeed = particleSpeedMultiplier * 1;
 
     function animateParticle(timestamp) {
         if (!startTime) startTime = timestamp;
