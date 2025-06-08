@@ -194,7 +194,7 @@ function createTextParticle() {
     
     const xPos = Math.random() * 100;
     const zPos = (Math.random() - 0.5) * (isMobile ? 300 : 500);
-    const animationDuration = Math.random() * 2 + (isMobile ? 3 : 3);
+    const animationDuration = Math.random() * 4 + (isMobile ? 8 : 10);
     
     element.style.left = xPos + '%';
     
@@ -208,7 +208,7 @@ function createTextParticle() {
     let startTime = null;
     let startY = -150;
     let endY = window.innerHeight + 150;
-    const thisParticleSpeed = particleSpeedMultiplier;
+    const thisParticleSpeed = particleSpeedMultiplier * 0.7;
 
     function animateParticle(timestamp) {
         if (!startTime) startTime = timestamp;
@@ -396,14 +396,14 @@ function createImageParticle() {
 
     const xPos = Math.random() * 100;
     const zPos = (Math.random() - 0.5) * (isMobile ? 300 : 500);
-    const animationDuration = Math.random() * 2 + (isMobile ? 3 : 3);
+    const animationDuration = Math.random() * 4 + (isMobile ? 8 : 10);
 
     img.style.left = xPos + '%';
 
     let startTime = null;
     let startY = -150;
     let endY = window.innerHeight + 150;
-    const thisParticleSpeed = particleSpeedMultiplier;
+    const thisParticleSpeed = particleSpeedMultiplier * 0.3;
 
     function animateParticle(timestamp) {
         if (!startTime) startTime = timestamp;
@@ -436,14 +436,39 @@ function updateLoveDays() {
     // Thay đổi ngày bắt đầu yêu nhau ở đây (định dạng: YYYY-MM-DD)
     const startDate = new Date('2024-10-06'); // Ví dụ: 1/6/2024
     const today = new Date();
+    
+    // Đặt thời gian về 00:00:00
+    startDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    
     const diffTime = today - startDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     document.getElementById('loveDays').textContent = diffDays;
 }
 
-// Cập nhật số ngày mỗi giây để hiển thị realtime
+// Cập nhật số ngày khi trang được tải
 updateLoveDays();
-setInterval(updateLoveDays, 1000); // Cập nhật mỗi giây
+
+// Tính thời gian đến 00:00 ngày hôm sau
+function getTimeUntilMidnight() {
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    return tomorrow - now;
+}
+
+// Cập nhật số ngày vào lúc 00:00
+function scheduleNextUpdate() {
+    const timeUntilMidnight = getTimeUntilMidnight();
+    setTimeout(() => {
+        updateLoveDays();
+        scheduleNextUpdate(); // Lên lịch cho lần cập nhật tiếp theo
+    }, timeUntilMidnight);
+}
+
+// Bắt đầu lên lịch cập nhật
+scheduleNextUpdate();
 
 // Initialize
 loadGalaxyData(); 
